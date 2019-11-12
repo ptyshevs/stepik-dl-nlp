@@ -37,8 +37,7 @@ def vectorize_texts(tokenized_texts, word2id, word2freq, mode='tfidf', scale=Tru
 
     if scale:
         result = result.tocsc()
-        result = results - result.min(0)
-        result = results / (result.max(0) + 1e-6)
+        result = result.multiply((1 / result.max(axis=0).todense() + 1e-6))
 
     return result.tocsr()
 
